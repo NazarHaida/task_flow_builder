@@ -8,7 +8,7 @@ import {
 } from '@xyflow/react';
 import {TextUpdaterNode} from './TextUpdaterNode';
 import '@xyflow/react/dist/style.css';
-import {useCallback, useState} from "react";
+import {useCallback} from "react";
 import {addNode, setSelectedNode, updateEdges, updateNodes} from "../store/FlowSlice";
 import { FlowNode } from '../types/FlowNode';
 import {FlowEdge} from "../types/FlowEdge";
@@ -38,7 +38,7 @@ export const FlowCanvas = () => {
             const updated = applyEdgeChanges(changes, allEdges);
             dispatch(updateEdges(updated));
         },
-        [allNodes, dispatch]
+        [dispatch]
     );
 
     const onConnect = useCallback(

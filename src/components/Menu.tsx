@@ -1,5 +1,5 @@
 
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {updateNodeColor, updateNodesLabel} from "../store/FlowSlice";
 import {useAppDispatch} from "../hooks/reduxHooks";
 
@@ -20,7 +20,7 @@ export const Menu = React.memo(({ id, label, visible }: MenuProps) => {
     const onColorChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
         setColor(evt.target.value)
 
-    }, [dispatch, id]);
+    }, [id]);
 
     const confirmColorChange = useCallback(() => {
         dispatch(updateNodeColor({id, color}));
