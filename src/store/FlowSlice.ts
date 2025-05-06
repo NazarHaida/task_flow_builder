@@ -2,7 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {FlowNode} from "../types/FlowNode";
 import {FlowEdge} from "../types/FlowEdge";
 
-const initialState = {
+interface FlowState {
+    nodes: FlowNode[];
+    edges: FlowEdge[];
+    selectedNodeId: string | null;
+}
+
+const saved = localStorage.getItem("flowState");
+
+const localState = saved
+    ? JSON.parse(saved)
+    : null
+
+const defaultState = {
     nodes: [
         {
             id: '1',
@@ -16,6 +28,12 @@ const initialState = {
     ] as FlowEdge[],
     selectedNodeId: null as string | null,
 };
+
+const parsedState = localState as FlowState;
+
+const initialState = parsedState !== null ? parsedState : defaultState;
+
+
 
 export const flowSlice = createSlice({
     name: 'flow',

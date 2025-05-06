@@ -4,11 +4,12 @@ import {
     Background,
     NodeChange,
     applyNodeChanges,
+    MiniMap,
  addEdge, Panel, EdgeChange, applyEdgeChanges
 } from '@xyflow/react';
 import {TextUpdaterNode} from './TextUpdaterNode';
 import '@xyflow/react/dist/style.css';
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {addNode, setSelectedNode, updateEdges, updateNodes} from "../store/FlowSlice";
 import { FlowNode } from '../types/FlowNode';
 import {FlowEdge} from "../types/FlowEdge";
@@ -24,6 +25,15 @@ export const FlowCanvas = () => {
     const allEdges = useAppSelector((state) => state.flow.edges)
     const defaultEdgeOptions = {animated: true};
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        const flowState = {
+            nodes: allNodes,
+            edges: allEdges,
+        };
+        localStorage.setItem("flowState", JSON.stringify(flowState));
+    }, [allNodes, allEdges]);
+
 
     const onNodesChange = useCallback(
         (changes: NodeChange<FlowNode>[]) => {
@@ -68,6 +78,7 @@ export const FlowCanvas = () => {
                 >
                     <Background />
                     <Controls />
+                    <MiniMap nodeColor={'green'} nodeStrokeWidth={3} zoomable pannable />
                     <Panel position="top-left">
                         <button onClick={() => {
                             const id = String(+allNodes[allNodes.length - 1].id + 1)
